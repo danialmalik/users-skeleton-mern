@@ -4,7 +4,7 @@ import express from 'express'
 import { MongoClient } from 'mongodb'
 
 import devBundle from './devBundle'
-import template from './../template'
+import template from './../index'
 
 
 const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/mernSimpleSetup'
