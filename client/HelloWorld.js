@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { hot } from 'react-hot-loader'
+import React, { Component } from 'react';
+import { hot } from 'react-hot-loader';
 
 class HelloWorld extends Component {
     render() {
@@ -7,8 +7,8 @@ class HelloWorld extends Component {
             <div>
                 <h1>Hello World!</h1>
             </div>
-        )
+        );
     }
 }
 
-export default hot(module)(HelloWorld)
+export default hot(module)(HelloWorld);

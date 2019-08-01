@@ -1,11 +1,11 @@
 
-const path = require('path')
-const webpack = require('webpack')
-const CURRENT_WORKING_DIR = process.cwd()
+const path = require('path');
+const webpack = require('webpack');
+const CURRENT_WORKING_DIR = process.cwd();
 
 const config = {
-    name: "browser",
-    mode: "development",
+    name: 'browser',
+    mode: 'development',
     devtool: 'eval-source-map',
     entry: [
         'react-hot-loader/patch',
@@ -31,6 +31,6 @@ const config = {
           new webpack.HotModuleReplacementPlugin(),
           new webpack.NoEmitOnErrorsPlugin()
       ]
-}
+};
 
-module.exports = config
+module.exports = config;

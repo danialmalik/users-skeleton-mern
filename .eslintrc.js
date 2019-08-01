@@ -1,5 +1,6 @@
 module.exports = {
     "env": {
+        "browser": true,
         "node": true,
         "es6": true
     },
@@ -19,5 +20,9 @@ module.exports = {
         "react"
     ],
     "rules": {
+        "semi": ["error", "always"],
+        "max-len": ["warn", {"code": 120}],
+        "quotes": ["warn", "single"],
+        "no-unused-vars": "warn"
     }
 };

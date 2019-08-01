@@ -1,34 +1,18 @@
-import path from 'path'
+import mongoose from 'mongoose';
 
-import express from 'express'
-import { MongoClient } from 'mongodb'
+import config from './../config/config';
+import app from './express';
 
-import devBundle from './devBundle'
-import template from './../index'
+mongoose.Promise = global.Promise;
+mongoose.connect(config.mongoUri);
 
+mongoose.connection.on('error', () => {
+  throw new Error(`unable to connect to database: ${config.mongoUri}`);
+});
 
-const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/mernSimpleSetup'
-let port = process.env.PORT || 3000
-const CURRENT_WORKING_DIR = process.cwd()
-
-MongoClient.connect(url, (err, db) => {
-  console.log("Connected successfully to mongodb server")
-  db.close()
-})
-
-const app = express()
-
-devBundle.compile(app)
-
-app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')))
-
-app.get('/', (req, res) => {
-  res.status(200).send(template())
-})
-
-app.listen(port, function onStart(err) {
+app.listen(config.port, err => {
   if (err) {
-    console.log(err)
+    console.log(err);
   }
-  console.info('Server started on port %s.', port)
-})
+  console.info('Server started on port %s.', config.port);
+});
