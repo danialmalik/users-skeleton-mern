@@ -9,12 +9,15 @@ import helmet from 'helmet';
 
 import devBundle from './devBundle';
 import routes from './routes/user.routes';
-
+import Template from '../index';
 
 const CURRENT_WORKING_DIR = process.cwd();
 
 const app = express();
 
+/**
+ * ONLY FOR DEVELOPMENT
+ */
 devBundle.compile(app);
 
 app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')));
@@ -28,10 +31,14 @@ app.use(cors());
 
 app.use('/', routes);
 
+app.get('/', (req, res, next) => {
+    res.send(Template());
+});
+
 app.use((err, req, res, next) => {
-  if (err.name === 'UnauthorizedError') {
-    res.status(401).json({ error: err.name + ': ' + err.message });
-  }
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).json({ error: err.name + ': ' + err.message });
+    }
 });
 
 export default app;
