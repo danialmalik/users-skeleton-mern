@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 
-import Home from './core/Home';
+import MainRouter from './MainRouter';
 
 const theme = createMuiTheme({
     palette: {
@@ -29,7 +29,7 @@ const theme = createMuiTheme({
 const App = () => (
     <BrowserRouter>
         <MuiThemeProvider theme={theme}>
-            <Home/>
+            <MainRouter />
         </MuiThemeProvider>
     </BrowserRouter>
 );
