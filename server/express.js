@@ -8,7 +8,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 
 import devBundle from './devBundle';
-import routes from './routes/user.routes';
+import userRoutes from './routes/user.routes';
+import authRoutes from './routes/auth.routes';
 import Template from '../index';
 
 const CURRENT_WORKING_DIR = process.cwd();
@@ -29,7 +30,8 @@ app.use(compress());
 app.use(helmet());
 app.use(cors());
 
-app.use('/', routes);
+app.use('/', userRoutes);
+app.use('/', authRoutes);
 
 app.get('/', (req, res, next) => {
     res.send(Template());

@@ -12,7 +12,7 @@ import auth from '../auth/auth-helper';
 // import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
 // import { Link } from 'react-router-dom';
 
-import { signin } from '../user/api-user';
+import { signin } from './api-auth';
 
 const styles = theme => ({
     card: {
