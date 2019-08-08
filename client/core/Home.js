@@ -29,7 +29,7 @@ class Home extends Component {
         const { classes } = this.props;
         return (
             <div>
-                <Link to="/signin">TTEMP</Link>
+                <Link to="/profile">TTEMP</Link>
                 <Card className={classes.card}>
                     <Typography type='headline' component='h2' className={classes.title}>
             Home Page
