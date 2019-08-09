@@ -5,12 +5,12 @@ import Paper from 'material-ui/Paper';
 import List, { ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
+import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import Edit from 'material-ui-icons/Edit';
 import Person from 'material-ui-icons/Person';
 import Divider from 'material-ui/Divider';
-
-// import DeleteUser from './DeleteUser'
+import DeleteUser from './DeleteUser';
 import auth from './../auth/auth-helper';
 import { read } from './api-user.js';
 import { Redirect, Link } from 'react-router-dom';
@@ -81,7 +81,7 @@ class Profile extends Component {
                                         <Edit />
                                     </IconButton>
                                 </Link>
-                                {/* <DeleteUser userId={this.state.user._id} /> */}
+                                <DeleteUser userId={this.state.user._id} />
                             </ListItemSecondaryAction>)
                         }
                     </ListItem>
@@ -97,7 +97,7 @@ class Profile extends Component {
 }
 Profile.propTypes = {
     classes: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Profile);

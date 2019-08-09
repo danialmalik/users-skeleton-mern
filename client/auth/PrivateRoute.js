@@ -1,31 +1,25 @@
-/* eslint react/prop-types: 0 */
-
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import auth from './auth-helper';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route
-        {...rest}
-        render={props =>
-            auth.isAuthenticated() ? (
-                <Component {...props} />
-            ) : (
-                <Redirect
-                    to={{
-                        pathname: '/signin',
-                        state: { from: props.location }
-                    }}
-                />
-            )
-        }
-    />
+    <Route {...rest} render={props => (
+        auth.isAuthenticated() ? (
+            <Component {...props} />
+        ) : (
+            <Redirect to={{
+                pathname: '/signin',
+                state: { from: props.location }
+            }} />
+        )
+    )} />
 );
 
-// PrivateRoute.propTypes = {
-//     component: PropTypes.object,
-//     location: PropTypes.string
-// };
+PrivateRoute.propTypes = {
+    location: PropTypes.object,
+    component: PropTypes.object
+};
 
 export default PrivateRoute;

@@ -1,27 +1,27 @@
-const signin = user => {
+const signin = (user) => {
     return fetch('/auth/signin/', {
         method: 'POST',
         headers: {
-            Accept: 'application/json',
+            'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         credentials: 'include',
         body: JSON.stringify(user)
     })
-        .then(response => {
+        .then((response) => {
             return response.json();
-        })
-        .catch(err => console.log(err));
+        }).catch((err) => console.log(err));
 };
 
 const signout = () => {
     return fetch('/auth/signout/', {
-        method: 'GET'
-    })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => console.log(err));
+        method: 'GET',
+    }).then(response => {
+        return response.json();
+    }).catch((err) => console.log(err));
 };
 
-export { signin, signout };
+export {
+    signin,
+    signout
+};

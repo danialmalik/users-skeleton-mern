@@ -6,9 +6,9 @@ import Typography from 'material-ui/Typography';
 import Icon from 'material-ui/Icon';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import { create } from './api-user.js';
-import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
-import { Link } from 'react-router-dom';
+import auth from './../auth/auth-helper';
+import { read, update } from './api-user.js';
+import { Redirect } from 'react-router-dom';
 
 const styles = theme => ({
     card: {
@@ -18,12 +18,12 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 5,
         paddingBottom: theme.spacing.unit * 2
     },
+    title: {
+        margin: theme.spacing.unit * 2,
+        color: theme.palette.protectedTitle
+    },
     error: {
         verticalAlign: 'middle'
-    },
-    title: {
-        marginTop: theme.spacing.unit * 2,
-        color: theme.palette.openTitle
     },
     textField: {
         marginLeft: theme.spacing.unit,
@@ -36,41 +36,63 @@ const styles = theme => ({
     }
 });
 
-class Signup extends Component {
-    state = {
-        name: '',
-        password: '',
-        email: '',
-        open: false,
-        error: ''
+class EditProfile extends Component {
+    constructor({ match }) {
+        super();
+        this.state = {
+            name: '',
+            email: '',
+            password: '',
+            redirectToProfile: false,
+            error: ''
+        };
+        this.match = match;
     }
 
-    handleChange = name => event => {
-        this.setState({ [name]: event.target.value });
+    componentDidMount = () => {
+        const jwt = auth.isAuthenticated();
+        read({
+            userId: this.match.params.userId
+        }, { t: jwt.token }).then((data) => {
+            if (data.error) {
+                this.setState({ error: data.error });
+            } else {
+                this.setState({ name: data.name, email: data.email });
+            }
+        });
     }
-
     clickSubmit = () => {
+        const jwt = auth.isAuthenticated();
         const user = {
             name: this.state.name || undefined,
             email: this.state.email || undefined,
             password: this.state.password || undefined
         };
-        create(user).then((data) => {
+        update({
+            userId: this.match.params.userId
+        }, {
+            t: jwt.token
+        }, user).then((data) => {
             if (data.error) {
                 this.setState({ error: data.error });
             } else {
-                this.setState({ error: '', open: true });
+                this.setState({ 'userId': data._id, 'redirectToProfile': true });
             }
         });
     }
-
+    handleChange = name => event => {
+        this.setState({ [name]: event.target.value });
+    }
     render() {
         const { classes } = this.props;
-        return (<div>
+        if (this.state.redirectToProfile) {
+            return (<Redirect to={'/user/' + this.state.userId} />);
+        }
+        return (
             <Card className={classes.card}>
                 <CardContent>
                     <Typography type="headline" component="h2" className={classes.title}>
-                        Sign Up
+                        Edit Profile
                     </Typography>
                     <TextField id="name" label="Name" className={classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal" /><br />
                     <TextField id="email" type="email" label="Email" className={classes.textField} value={this.state.email} onChange={this.handleChange('email')} margin="normal" /><br />
@@ -78,34 +100,21 @@ class Signup extends Component {
                     <br /> {
                         this.state.error && (<Typography component="p" color="error">
                             <Icon color="error" className={classes.error}>error</Icon>
-                            {this.state.error}</Typography>)
+                            {this.state.error}
+                        </Typography>)
                     }
                 </CardContent>
                 <CardActions>
                     <Button color="primary" variant="raised" onClick={this.clickSubmit} className={classes.submit}>Submit</Button>
                 </CardActions>
             </Card>
-            <Dialog open={this.state.open} disableBackdropClick={true}>
-                <DialogTitle>New Account</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        New account successfully created.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Link to="/signin">
-                        <Button color="primary" autoFocus="autoFocus" variant="raised">
-                            Sign In
-                        </Button>
-                    </Link>
-                </DialogActions>
-            </Dialog>
-        </div>);
+        );
     }
 }
 
-Signup.propTypes = {
-    classes: PropTypes.object.isRequired
+EditProfile.propTypes = {
+    classes: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Signup);
+export default withStyles(styles)(EditProfile);
