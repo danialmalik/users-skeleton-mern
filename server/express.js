@@ -6,6 +6,9 @@ import cookieParser from 'cookie-parser';
 import compress from 'compression';
 import cors from 'cors';
 import helmet from 'helmet';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // modules for server side rendering
 import React from 'react';
